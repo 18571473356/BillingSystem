@@ -22,7 +22,12 @@ export default ({ mode }) => {
         plugins: [
             vue(),// ...
             AutoImport({
-                resolvers: [ElementPlusResolver()],
+                include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],
+                imports: ["vue", "vue-router", "vitest"],
+                dts: true,
+                eslintrc: {
+                enabled: true,
+                }
             }),
             Components({
                 resolvers: [ElementPlusResolver()],
@@ -40,7 +45,9 @@ export default ({ mode }) => {
             }
         },
         resolve: {
-            alias
+            alias: {
+              "@": resolve(__dirname, "src")
+            }
         }
     })
 }

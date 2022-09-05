@@ -2,9 +2,15 @@
   "name": "billingfe_vite",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint ./src/**/*.{js,vue,ts,tsx,jsx} --fix"
+    "serve": "vite --mode=development",
+    "serve:dev": "vite --mode=development",
+    "serve:test": "vite --mode=test",
+    "build:test": "vue-tsc --noEmit && vite build --mode=test",
+    "build": "vue-tsc --noEmit && vite build",
+    "lint": "eslint --fix --ext .js,vue src/",
+    "preview": "vite preview",
+    "test": "vitest",
+    "plop": "plop"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",

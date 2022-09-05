@@ -1,6 +1,6 @@
 <!-- @format -->
 
-<script lang="ts">
+<!-- <script lang="ts">
   import { defineComponent, reactive, ref } from 'vue'
   import type { FormInstance, FormRules } from 'element-plus'
   import { login } from '@/api/login'
@@ -50,10 +50,47 @@
       }
     }
   })
+</script> -->
+<script lang="ts" setup>
+  import type { FormInstance, FormRules } from 'element-plus'
+  import { login } from '@/api/login'
+  const formRef = ref<FormInstance>()
+  const ruleForm = reactive({
+    username: '',
+    password: ''
+  })
+  const rules = reactive<FormRules>({
+    username: [
+      { required: true, message: 'Please input username', trigger: 'blur' },
+      { min: 3, message: 'Min Length min 3', trigger: 'blur' }
+    ],
+    password: [
+      { required: true, message: 'Please input password', trigger: 'blur' },
+      { min: 3, message: 'Min Length is 3', trigger: 'blur' }
+    ]
+  })
+
+  const submitForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+      if (valid) {
+        console.log(ruleForm)
+        login(ruleForm)
+        console.log('submit!')
+      } else {
+        console.log('error submit!', fields)
+      }
+    })
+  }
+
+  const resetForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
+  }
 </script>
 <template>
-  <div class="box-card">
-    <el-card shadow="always">
+  <div class="login">
+    <el-card shadow="always" class="box-card">
       <template #header>
         <h3>Welecom to Billing System!</h3>
       </template>
@@ -81,8 +118,16 @@
   </div>
 </template>
 <style lang="scss">
+  .login {
+    width: 100%;
+    min-height: 100vh;
+    background: -webkit-linear-gradient(left,#5d81fe,#56c9ff);
+  }
   .box-card {
     width: 30%;
-    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 </style>
